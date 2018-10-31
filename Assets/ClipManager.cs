@@ -4,6 +4,29 @@ using UnityEngine;
 
 public class ClipManager : MonoBehaviour {
 
+    public List<AudioClip> checkList;
+
+    void Check ()
+    {
+        foreach(AudioClip clip in badList)
+        {
+            if (clip == source.clip)
+            {
+                foreach(AudioClip checkClip in checkList)
+                {
+                    if(checkClip == clip)
+                    {
+                        //do double
+                    }
+                    else
+                    {
+                        checkList.Add(clip);
+                    }
+                }
+            }
+        }
+    }
+
     public List<AudioClip> badList = new List<AudioClip>();
     public List<AudioClip> goodList = new List<AudioClip>();
     public List<AudioClip> rareList = new List<AudioClip>();

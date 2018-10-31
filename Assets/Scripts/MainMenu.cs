@@ -7,26 +7,22 @@ public class MainMenu : MonoBehaviour {
 
     public KeyCode startKey, endKey;
 
+    public GameObject fadeScreen;
+
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(startKey))
         {
             //start the game!
-            StartGame();
+            StartCoroutine(SceneTransition("GameScene"));
         }
         if(Input.GetKeyDown(endKey))
         {
             //depending on which scene we're in, either quit the game or return to menu
             if (SceneManager.GetActiveScene().name == "MainMenu") EndGame();
-            else BackToMenu();
+            else StartCoroutine(SceneTransition("MainMenu"));
         }
 	}
-
-    //these are in separate voids so we can choose if we want to use ui buttons or keyboard presses when in menus
-    public void StartGame ()
-    {
-        SceneManager.LoadScene("GameScene");
-    }
 
     public void EndGame ()
     {
@@ -34,8 +30,12 @@ public class MainMenu : MonoBehaviour {
         Debug.Log("Game has quit.");
     }
 
-    public void BackToMenu ()
+    public IEnumerator SceneTransition (string sceneName)
     {
-        SceneManager.LoadScene("MainMenu");
+        var fade = fadeScreen.GetComponent<Animator>();
+        fade.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneName);
+        fade.SetTrigger("FadeIn");
     }
 }
