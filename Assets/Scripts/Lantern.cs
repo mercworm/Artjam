@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Lantern : MonoBehaviour {
+
+    [System.Serializable] public class LightsOn : UnityEvent { }
+    [SerializeField] public LightsOn lights, snowDone;
 
     public GameObject[] snowballs;
     public float ballCount = 1;
@@ -10,6 +14,8 @@ public class Lantern : MonoBehaviour {
     public GameObject snowLight;
 
     public GameObject instruction2;
+
+    private bool invokeCheck = true;
 
     public void AddBall ()
     {
@@ -30,6 +36,7 @@ public class Lantern : MonoBehaviour {
         if (ballCount == snowballs.Length)
         {
             snowLight.SetActive(true);
+            lights.Invoke();
         }
     }
 
@@ -37,7 +44,12 @@ public class Lantern : MonoBehaviour {
     {
         if(ballCount == snowballs.Length)
         {
-            instruction2.SetActive(true);
+            if (invokeCheck)
+            {
+                invokeCheck = false;
+                instruction2.SetActive(true);
+                snowDone.Invoke();
+            }
         }
     }
 }

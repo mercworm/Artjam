@@ -16,15 +16,26 @@ public class GameManager : MonoBehaviour {
     public float roomCount;
     public GameObject[] snowballs;
 
-    private bool cantGoBack;
-    private bool cantGoForward;
+    public GameObject lighter, instruction1, cantGoBack, cantGoForward, pedestal;
 
-    public GameObject lighter, instruction1;
+    private bool first = true;
 
     private void Start()
     {
         fpc = GetComponent<FirstPersonController>();
         fadeAnim = fadePanel.GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (first)
+        {
+            if (!player.GetComponent<PlayerActions>().firstBall)
+            {
+                cantGoForward.SetActive(false);
+                first = false;
+            }
+        }
     }
 
     public void ThroughExitDoor ()
@@ -34,29 +45,15 @@ public class GameManager : MonoBehaviour {
 
     public void ThroughForwardDoor ()
     {
-        if (cantGoForward)
-        {
-            var pl = player.GetComponent<PlayerActions>();
-            pl.DoorIsLocked();
-        }
-        else
-        {
-            StartCoroutine(WhileMoving(wentForward));
-            roomCount++;
-        }
+
+        StartCoroutine(WhileMoving(wentForward));
+        roomCount++;
     }
 
     public void ThroughBackDoor ()
     {
-        if(cantGoBack)
-        {
-            var pl = player.GetComponent<PlayerActions>();
-            pl.DoorIsLocked();
-        }
-        {
-            StartCoroutine(WhileMoving(wentBack));
-            roomCount--;
-        }
+        StartCoroutine(WhileMoving(wentBack));
+        roomCount--;
     }
 
     public IEnumerator WhileMoving (Transform whichWay)
@@ -98,22 +95,36 @@ public class GameManager : MonoBehaviour {
 
         if(roomCount == -1)
         {
-            lighter.SetActive(true);
-            cantGoBack = true;
+            if (lighter != null) lighter.SetActive(true);
+            pedestal.SetActive(false);
+            cantGoBack.SetActive(true);
         }
         else
         {
-            lighter.SetActive(false);
-            cantGoBack = false;
+            if(lighter != null) lighter.SetActive(false);
+            if (!pedestal.activeInHierarchy) pedestal.SetActive(true);
+            cantGoBack.SetActive(false);
         }
 
         if (roomCount == 9)
         {
-            cantGoForward = true;
+            cantGoForward.SetActive(true);
         }
         else
         {
-            cantGoForward = false;
+            cantGoForward.SetActive(false);
         }
+    }
+
+    public void DisableWalls ()
+    {
+        cantGoBack.SetActive(true);
+        cantGoForward.SetActive(true);
+    }
+
+    public void SnowDone ()
+    {
+        cantGoForward.SetActive(true);
+        roomCount = 0;
     }
 }

@@ -18,6 +18,7 @@ public class PlayerActions : MonoBehaviour {
 
     private bool hasLighter = false;
     private bool onlyOnce = false;
+    public bool firstBall = true;
 
     // Update is called once per frame
     void Update()
@@ -85,6 +86,7 @@ public class PlayerActions : MonoBehaviour {
                         }
                         else
                         {
+                            if (firstBall) firstBall = false;
                             lantern.AddBall();
                             invSnow--;
                         }
