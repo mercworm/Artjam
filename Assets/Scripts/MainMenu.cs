@@ -9,18 +9,24 @@ public class MainMenu : MonoBehaviour {
 
     public GameObject fadeScreen;
 
-	// Update is called once per frame
-	void Update () {
+    private void OnEnable()
+    {
+        EventManager.StartListening("ThroughExitDoor", BackToMenu);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if(Input.GetKeyDown(startKey))
         {
             //start the game!
-            StartCoroutine(SceneTransition("GameScene"));
+            if (SceneManager.GetActiveScene().name == "MainMenu") StartCoroutine(SceneTransition("GameScene", 1.5f));
+            else return;
         }
         if(Input.GetKeyDown(endKey))
         {
             //depending on which scene we're in, either quit the game or return to menu
             if (SceneManager.GetActiveScene().name == "MainMenu") EndGame();
-            else StartCoroutine(SceneTransition("MainMenu"));
+            else return;
         }
 	}
 
@@ -30,11 +36,16 @@ public class MainMenu : MonoBehaviour {
         Debug.Log("Game has quit.");
     }
 
-    public IEnumerator SceneTransition (string sceneName)
+    public void BackToMenu ()
+    {
+        StartCoroutine(SceneTransition("MainMenu", 3f));
+    }
+
+    public IEnumerator SceneTransition (string sceneName, float waitTime)
     {
         var fade = fadeScreen.GetComponent<Animator>();
         fade.SetTrigger("FadeOut");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene(sceneName);
         fade.SetTrigger("FadeIn");
     }

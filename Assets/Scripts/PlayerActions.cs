@@ -8,7 +8,7 @@ public class PlayerActions : MonoBehaviour {
     [System.Serializable]
     public class DoorEvents : UnityEvent { }
     [SerializeField]
-    public DoorEvents GoForwards, GoBack, ExitGame;
+    public DoorEvents GoForwards, GoBack;
 
     public float distanceToSee;
     public LayerMask interactionsLayer;
@@ -17,8 +17,12 @@ public class PlayerActions : MonoBehaviour {
     public float invSnow = 0;
 
     private bool hasLighter = false;
+    private bool hasMatches = false;
     private bool onlyOnce = false;
     public bool firstBall = true;
+
+    public AudioSource source;
+    public AudioClip snow, snow2, lightItUp, lighter, door1, door2, door3, lightItUp2, matches;
 
     // Update is called once per frame
     void Update()
@@ -36,7 +40,7 @@ public class PlayerActions : MonoBehaviour {
             //draw ray
             RaycastHit[] rayHits;
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            rayHits = Physics.RaycastAll(ray, 200.0f, interactionsLayer);
+            rayHits = Physics.RaycastAll(ray, distanceToSee, interactionsLayer);
 
             //checking every hit, so see if they match the tags
             for (int i = 0; i < rayHits.Length; i++)
@@ -45,14 +49,17 @@ public class PlayerActions : MonoBehaviour {
                 if (rayHits[i].collider.gameObject.tag == "ForwardDoor")
                 {
                     GoForwards.Invoke();
+                    source.PlayOneShot(door1);
                 }
                 else if (rayHits[i].collider.gameObject.tag == "BackDoor")
                 {
                     GoBack.Invoke();
+                    source.PlayOneShot(door2);
                 }
                 else if (rayHits[i].collider.gameObject.tag == "ExitDoor")
                 {
-                    ExitGame.Invoke();
+                    source.PlayOneShot(door3);
+                    EventManager.TriggerEvent("ThroughExitDoor");
                 }
                 else if (rayHits[i].collider.gameObject.tag == "Snowball")
                 {
@@ -64,6 +71,7 @@ public class PlayerActions : MonoBehaviour {
                         if (snowball != null)
                         {
                             snowball.GotFound();
+                            source.PlayOneShot(snow);
                             invSnow++;
                             Debug.Log("Found snowball");
                         }
@@ -78,9 +86,11 @@ public class PlayerActions : MonoBehaviour {
                     {
                         if (invSnow <= 0)
                         {
-                            if(hasLighter)
+                            if(hasLighter || hasMatches)
                             {
                                 lantern.LightItUp();
+                                if (hasLighter) source.PlayOneShot(lightItUp);
+                                else if (hasMatches) source.PlayOneShot(lightItUp2);
                             }
                             else return;
                         }
@@ -89,6 +99,7 @@ public class PlayerActions : MonoBehaviour {
                             if (firstBall) firstBall = false;
                             lantern.AddBall();
                             invSnow--;
+                            source.PlayOneShot(snow2);
                         }
                     }
                 }
@@ -96,14 +107,16 @@ public class PlayerActions : MonoBehaviour {
                 {
                     hasLighter = true;
                     Destroy(rayHits[i].collider.gameObject);
+                    source.PlayOneShot(lighter);
+                }
+                else if(rayHits[i].collider.gameObject.tag == "Matches")
+                {
+                    hasLighter = true;
+                    Destroy(rayHits[i].collider.gameObject);
+                    source.PlayOneShot(matches);
                 }
             }
         }
-    }
-
-    public void DoorIsLocked ()
-    {
-        //shake sound
     }
 
     public void PickUpBall ()

@@ -6,16 +6,15 @@ using UnityEngine.Events;
 public class Lantern : MonoBehaviour {
 
     [System.Serializable] public class LightsOn : UnityEvent { }
-    [SerializeField] public LightsOn lights, snowDone;
+    [SerializeField] public LightsOn lights, snowDone, threePickedUp;
 
     public GameObject[] snowballs;
-    public float ballCount = 1;
+    public float ballCount = 2;
 
-    public GameObject snowLight;
-
-    public GameObject instruction2;
+    public GameObject snowLight, instruction2, thirdBall;
 
     private bool invokeCheck = true;
+    private bool invokeCheck2 = true;
 
     public void AddBall ()
     {
@@ -44,12 +43,18 @@ public class Lantern : MonoBehaviour {
     {
         if(ballCount == snowballs.Length)
         {
+            Debug.Log("Ballcount adds up");
             if (invokeCheck)
             {
                 invokeCheck = false;
                 instruction2.SetActive(true);
                 snowDone.Invoke();
             }
+        }
+
+        if(thirdBall == null  && invokeCheck2)
+        {
+            threePickedUp.Invoke();
         }
     }
 }

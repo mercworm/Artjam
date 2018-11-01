@@ -10,6 +10,8 @@ TagManager:
   - Snowball
   - Lantern
   - Lighter
+  - MainMenu
+  - Matches
   layers:
   - Default
   - TransparentFX

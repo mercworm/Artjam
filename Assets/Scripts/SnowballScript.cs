@@ -6,9 +6,8 @@ public class SnowballScript : MonoBehaviour {
 
     public void GotFound ()
     {
-        //play sound
         //do particle effect
-        Invoke("DestroyThis", 1f);
+        Invoke("DestroyThis", .3f);
     }
 
     public void DestroyThis ()
