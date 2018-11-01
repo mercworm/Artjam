@@ -31,7 +31,7 @@ public class PlayerActions : MonoBehaviour {
 
         if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, distanceToSee))
         {
-            Debug.Log("I touched " + hit.collider.gameObject.name);
+            //Debug.Log("I touched " + hit.collider.gameObject.name);
         }
 
         //on click
@@ -45,7 +45,7 @@ public class PlayerActions : MonoBehaviour {
             //checking every hit, so see if they match the tags
             for (int i = 0; i < rayHits.Length; i++)
             {
-                Debug.Log("With the new Raycast, I touched " + rayHits[i].collider.gameObject.name);
+                //Debug.Log("With the new Raycast, I touched " + rayHits[i].collider.gameObject.name);
                 if (rayHits[i].collider.gameObject.tag == "ForwardDoor")
                 {
                     GoForwards.Invoke();

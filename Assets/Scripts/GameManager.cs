@@ -6,12 +6,10 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class GameManager : MonoBehaviour {
 
     public Transform wentBack, wentForward;
-    public GameObject player, fadePanel;
+    public GameObject player, playerCamera, fadePanel;
 
     private Animator fadeAnim;
     private bool goingForwards;
-
-    private FirstPersonController fpc;
 
     public float roomCount;
     public GameObject[] snowballs;
@@ -22,9 +20,9 @@ public class GameManager : MonoBehaviour {
     private bool snowDone = false;
     private bool threeGone = false;
 
+
     private void Start()
     {
-        fpc = GetComponent<FirstPersonController>();
         fadeAnim = fadePanel.GetComponent<Animator>();
     }
 
@@ -68,20 +66,14 @@ public class GameManager : MonoBehaviour {
     {
         fadeAnim.SetTrigger("Fade");
         yield return new WaitForSeconds(.4f);
-        player.transform.position = whichWay.transform.position;
+        player.transform.localPosition = whichWay.transform.position;
+        player.GetComponent<FirstPersonController>().rotationToggle = true;
 
         if (instruction1.activeInHierarchy)
         {
             instruction1.SetActive(false);
         }
         RoomChange();
-
-        //tried to make the character turn after movement
-      //if (fpc.m_MouseLook.m_CameraTargetRot != null && fpc.m_MouseLook.m_CharacterTargetRot != null)
-      //{
-      //    fpc.m_MouseLook.m_CameraTargetRot = Quaternion.Euler(0f, 180f, 0f);
-      //    fpc.m_MouseLook.m_CharacterTargetRot = Quaternion.Euler(0f, 180f, 0f);
-      //}
     }
 
     public void RoomChange ()

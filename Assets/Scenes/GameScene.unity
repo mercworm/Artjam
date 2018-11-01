@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9929,6 +9929,16 @@ Prefab:
     - target: {fileID: 1152441581435266, guid: b98738cf52479f84593effacd1bd5075, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65635813651901374, guid: b98738cf52479f84593effacd1bd5075,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 1.7110097
+      objectReference: {fileID: 0}
+    - target: {fileID: 65635813651901374, guid: b98738cf52479f84593effacd1bd5075,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.45070446
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b98738cf52479f84593effacd1bd5075, type: 2}
@@ -24436,6 +24446,11 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &351354489 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 5e9e851c0e142814dac026a256ba2ac0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1649517699}
 --- !u!1 &356233911
 GameObject:
   m_ObjectHideFlags: 0
@@ -34217,7 +34232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &434892575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53773,6 +53788,7 @@ MonoBehaviour:
   wentBack: {fileID: 1396096476}
   wentForward: {fileID: 819863135}
   player: {fileID: 2100221366}
+  playerCamera: {fileID: 351354489}
   fadePanel: {fileID: 393666117}
   roomCount: 1
   snowballs:
@@ -53786,7 +53802,6 @@ MonoBehaviour:
   - {fileID: 1339190485}
   - {fileID: 452953763}
   - {fileID: 487159668}
-  - {fileID: 0}
   lighter: {fileID: 320411442}
   instruction1: {fileID: 484422033}
   cantGoBack: {fileID: 2094540367}
@@ -92794,8 +92809,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.188046, y: 3.8722582, z: 2.119011}
-  m_Center: {x: -0.04144287, y: 1.9069777, z: -0.0034866333}
+  m_Size: {x: 1.394514, y: 3.8722582, z: 1.64435}
+  m_Center: {x: -0.09411985, y: 1.9069777, z: -0.24081707}
 --- !u!114 &1514486448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98159,11 +98174,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_RunstepLenghten
-      value: 0.088
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_RunSpeed
-      value: 15
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114881055036812096, guid: 5e9e851c0e142814dac026a256ba2ac0,
         type: 2}

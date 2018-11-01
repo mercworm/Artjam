@@ -42,6 +42,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        public bool rotationToggle = false;
+
       //private void OnEnable()
       //{
       //    EventManager.StartListening("WalkingToggle", Toggle);
@@ -252,7 +254,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void RotateView()
         {
-            m_MouseLook.LookRotation (transform, m_Camera.transform);
+            if (!rotationToggle) m_MouseLook.LookRotation(transform, m_Camera.transform);
+            else RotateCharacter();
         }
 
 
@@ -270,6 +273,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        public void RotateCharacter ()
+        {
+            m_MouseLook.m_CharacterTargetRot = Quaternion.Euler(0f, -1f, 0f);
+            m_MouseLook.m_CameraTargetRot = Quaternion.Euler(0f, -1f, 0f);
+            rotationToggle = false;
         }
     }
 }
