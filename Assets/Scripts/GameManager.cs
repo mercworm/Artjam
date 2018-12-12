@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     public float roomCount;
     public GameObject[] snowballs;
 
-    public GameObject lighter, instruction1, cantGoBack, cantGoForward, pedestal, exitDoor, missedAnything, goBack, matchBox, anotherWay, anotherWay2, ladder, exitText, rightWay, goalPainting;
+    public GameObject lighter, instruction1, cantGoBack, cantGoForward, pedestal, exitDoor, missedAnything, goBack, matchBox, anotherWay, anotherWay2, ladder, exitText, rightWay, goalPainting, noOtherWay;
 
     private bool first = true;
     private bool snowDone = false;
@@ -42,12 +42,14 @@ public class GameManager : MonoBehaviour {
         {
             matchBox.SetActive(false);
             anotherWay.SetActive(false);
+            noOtherWay.SetActive(true);
         }
 
         if(matchBox == null)
         {
             lighter.SetActive(false);
             anotherWay2.SetActive(true);
+            anotherWay.SetActive(false);
         }
 
         Lights();
@@ -111,6 +113,8 @@ public class GameManager : MonoBehaviour {
             cantGoBack.SetActive(false);
             if(matchBox != null) matchBox.SetActive(false);
             anotherWay.SetActive(false);
+            anotherWay2.SetActive(false);
+            noOtherWay.SetActive(false);
         }
 
         if (roomCount == 1)
