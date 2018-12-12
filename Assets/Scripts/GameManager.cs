@@ -14,12 +14,13 @@ public class GameManager : MonoBehaviour {
     public float roomCount;
     public GameObject[] snowballs;
 
-    public GameObject lighter, instruction1, cantGoBack, cantGoForward, pedestal, exitDoor, missedAnything, goBack, matchBox, anotherWay, anotherWay2, ladder, exitText;
+    public GameObject lighter, instruction1, cantGoBack, cantGoForward, pedestal, exitDoor, missedAnything, goBack, matchBox, anotherWay, anotherWay2, ladder, exitText, rightWay, goalPainting;
 
     private bool first = true;
     private bool snowDone = false;
-    private bool threeGone = false;
+    private bool hasBeenInNine = false;
 
+    public GameObject ExitLight;
 
     private void Start()
     {
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour {
             lighter.SetActive(false);
             anotherWay2.SetActive(true);
         }
+
+        Lights();
     }
 
     public void ThroughForwardDoor ()
@@ -110,8 +113,15 @@ public class GameManager : MonoBehaviour {
             anotherWay.SetActive(false);
         }
 
+        if (roomCount == 1)
+        {
+            goalPainting.SetActive(true);
+        }
+        else goalPainting.SetActive(false);
+
         if (roomCount == 9)
         {
+            hasBeenInNine = true;
             cantGoForward.SetActive(true);
             goBack.SetActive(true);
         }
@@ -137,8 +147,29 @@ public class GameManager : MonoBehaviour {
         if (roomCount == 2) ladder.SetActive(true);
         else ladder.SetActive(false);
 
-        if (roomCount == 3 && !threeGone) missedAnything.SetActive(true);
+        if (roomCount == 3)
+        {
+            var ball3 = GameObject.Find("Snowball_Find_3");
+            if (ball3 != null)
+            {
+                if (ball3.activeInHierarchy)
+                {
+                    missedAnything.SetActive(true);
+                }
+                else
+                {
+                    missedAnything.SetActive(false);
+                }
+            }
+            else Debug.Log("Ball3 is gone");
+        }
         else missedAnything.SetActive(false);
+
+        if (roomCount == 8 && hasBeenInNine)
+        {
+            rightWay.SetActive(true);
+        }
+        else rightWay.SetActive(false);
     }
 
     public void DisableWalls ()
@@ -157,8 +188,15 @@ public class GameManager : MonoBehaviour {
         Debug.Log("SnowDone has triggered");
     }
 
-    public void PickedUpThree ()
+    //takes care of the exitlight turning on and off depending on the snowballs being found
+    public void Lights ()
     {
-        threeGone = true;
+        var currentSnowball = GameObject.FindGameObjectWithTag("Snowball");
+        if (currentSnowball != null)
+        {
+            Debug.Log(currentSnowball);
+            ExitLight.SetActive(false);
+        }
+        else ExitLight.SetActive(true);
     }
 }
